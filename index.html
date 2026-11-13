@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gourav Chahal | Weed Science PhD Student, Auburn University</title>
+<meta name="description" content="Gourav Chahal is a Weed Science PhD student at Auburn University working on herbicide efficacy, weed management in high-residue conservation tillage, application technology and meta-analysis. PhD completing Summer 2027.">
+<meta name="author" content="Gourav Chahal">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-900: #16301f;
+    --green-800: #1f4a2e;
+    --green-700: #2c6a41;
+    --green-600: #3a8552;
+    --green-100: #e4efe3;
+    --green-50: #f1f6ef;
+    --wheat: #c9a13b;
+    --wheat-dark: #8a6a14;
+    --soil: #5b4630;
+    --paper: #fbfaf5;
+    --card: #ffffff;
+    --ink: #1c2420;
+    --ink-soft: #4a554e;
+    --line: #dfe5da;
+    --radius: 10px;
+    --max: 1080px;
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font-family: var(--sans); font-size: 17px; line-height: 1.65; color: var(--ink); background: var(--paper); }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--green-700); text-underline-offset: 3px; }
+  a:hover { color: var(--green-900); }
+  :focus-visible { outline: 3px solid var(--wheat); outline-offset: 3px; border-radius: 4px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; color: var(--green-900); margin: 0; }
+  h2 { font-size: clamp(1.7rem, 3.2vw, 2.2rem); }
+  h3 { font-size: 1.2rem; }
+  p { margin: 0 0 1rem; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  .wrap { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; }
+  .skip { position: absolute; left: -999px; top: 0; background: var(--green-900); color: #fff; padding: .7rem 1rem; z-index: 100; }
+  .skip:focus { left: .5rem; top: .5rem; color: #fff; }
+
+  /* Header and nav */
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(251, 250, 245, .96); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; min-height: 62px; gap: 1rem; }
+  .brand { font-family: var(--serif); font-weight: 600; font-size: 1.15rem; color: var(--green-900); text-decoration: none; }
+  .nav-list { display: flex; gap: .25rem; flex-wrap: wrap; }
+  .nav-list a { display: block; padding: .45rem .75rem; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: .95rem; font-weight: 500; }
+  .nav-list a:hover { background: var(--green-100); color: var(--green-900); }
+  .nav-list a[aria-current="true"] { background: var(--green-800); color: #fff; }
+  .nav-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: 6px; padding: .5rem .7rem; font: inherit; font-size: .95rem; font-weight: 500; color: var(--green-900); cursor: pointer; }
+
+  /* Hero */
+  .hero { background: linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 60%, #2a5a38 100%); color: #f3f6ef; padding: clamp(3.5rem, 9vw, 6.5rem) 0 clamp(3rem, 7vw, 5rem); position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; inset: auto 0 0 0; height: 10px; background: repeating-linear-gradient(90deg, var(--wheat) 0 28px, transparent 28px 40px); opacity: .85; }
+  .eyebrow { font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: #e3c873; margin-bottom: .9rem; }
+  .hero h1 { color: #fff; font-size: clamp(2.6rem, 7vw, 4.4rem); letter-spacing: -.01em; }
+  .hero .role { font-family: var(--serif); font-size: clamp(1.2rem, 2.6vw, 1.6rem); color: #dbe8d8; margin: .6rem 0 1.2rem; }
+  .hero .pitch { max-width: 40rem; font-size: 1.1rem; color: #e9efe5; }
+  .avail { display: inline-block; margin: .6rem 0 1.8rem; padding: .5rem .9rem; border: 1px solid rgba(227, 200, 115, .7); border-radius: 999px; font-size: .95rem; font-weight: 500; color: #f4e3a6; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: .8rem; }
+  .btn { display: inline-block; padding: .8rem 1.3rem; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 1rem; border: 2px solid transparent; }
+  .btn-primary { background: var(--wheat); color: #1d1a0a; }
+  .btn-primary:hover { background: #dab650; color: #1d1a0a; }
+  .btn-ghost { border-color: rgba(255, 255, 255, .7); color: #fff; }
+  .btn-ghost:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+
+  /* Sections */
+  section { padding: clamp(3rem, 7vw, 5rem) 0; }
+  section.alt { background: var(--green-50); border-block: 1px solid var(--line); }
+  .section-head { margin-bottom: 2rem; max-width: 46rem; }
+  .section-head .kicker { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--wheat-dark); margin-bottom: .4rem; }
+  .section-head p { color: var(--ink-soft); margin: .7rem 0 0; }
+  .sub { margin: 2.6rem 0 1.1rem; font-size: 1.35rem; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1fr 260px; gap: 2.5rem; align-items: start; }
+  .portrait { margin: 0; }
+  .portrait img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
+  figcaption { font-size: .88rem; color: var(--ink-soft); margin-top: .5rem; }
+
+  /* Timeline */
+  .timeline { position: relative; margin-left: .4rem; padding-left: 1.8rem; border-left: 2px solid var(--green-600); max-width: 46rem; }
+  .timeline li { position: relative; padding-bottom: 1.7rem; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before { content: ""; position: absolute; left: calc(-1.8rem - 8px); top: .35rem; width: 14px; height: 14px; border-radius: 50%; background: var(--wheat); border: 2px solid var(--green-800); }
+  .when { font-size: .85rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--wheat-dark); }
+  .timeline h3 { margin: .15rem 0 .3rem; }
+  .timeline p { margin: 0; color: var(--ink-soft); }
+
+  /* Cards and grids */
+  .grid { display: grid; gap: 1.2rem; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
+  .card h3 { margin-bottom: .5rem; }
+  .card p:last-child { margin-bottom: 0; }
+  .card p { color: var(--ink-soft); font-size: .98rem; }
+  .stat { text-align: left; border-top: 4px solid var(--green-700); }
+  .stat .num { font-family: var(--serif); font-weight: 600; font-size: 2.3rem; line-height: 1.1; color: var(--green-800); }
+  .stat .lbl { font-size: .93rem; color: var(--ink-soft); margin-top: .3rem; }
+  .figure-line { font-family: var(--serif); font-weight: 600; font-size: 1.65rem; color: var(--green-700); line-height: 1.2; margin: .2rem 0 .1rem; }
+  .figure-note { font-size: .9rem; color: var(--ink-soft); margin-bottom: .7rem; }
+  .meta { font-size: .86rem; font-weight: 600; color: var(--soil); margin-bottom: .5rem; }
+  .plain-list li { position: relative; padding: 0 0 .75rem 1.3rem; color: var(--ink-soft); }
+  .plain-list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 2px; background: var(--green-600); }
+  .plain-list strong { color: var(--ink); }
+  .links { display: flex; flex-wrap: wrap; gap: .5rem 1.1rem; margin-top: .9rem; font-size: .95rem; font-weight: 600; }
+  .tag { display: inline-block; font-size: .78rem; font-weight: 600; padding: .15rem .55rem; border-radius: 999px; background: var(--green-100); color: var(--green-800); margin-bottom: .6rem; }
+
+  /* Photo slots (hidden until an image file exists) */
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+  .photo-grid:not(:has(figure:not([hidden]))) { display: none; }
+  .photo-slot { margin: 0; }
+  .photo-slot img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
+
+  /* Publications */
+  .pubs li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .pubs li:first-child { padding-top: 0; }
+  .pubs .title { font-weight: 600; color: var(--ink); }
+  .pubs .authors, .pubs .venue { color: var(--ink-soft); font-size: .96rem; }
+  .pubs .doi { font-size: .93rem; word-break: break-all; }
+
+  /* Skills */
+  .chips { display: flex; flex-wrap: wrap; gap: .55rem; }
+  .chips li { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: .4rem .9rem; font-size: .95rem; font-weight: 500; }
+
+  /* Contact */
+  .contact-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .contact-list .card { display: block; }
+  .contact-list .lbl { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--wheat-dark); }
+  .contact-list a { font-weight: 600; word-break: break-word; }
+
+  footer { background: var(--green-900); color: #cfdccb; padding: 2rem 0; font-size: .92rem; }
+  footer p { margin: 0 0 .3rem; }
+
+  @media (max-width: 860px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .about-grid { grid-template-columns: 1fr; }
+    .portrait { max-width: 240px; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .js .nav-toggle { display: inline-block; }
+    .js .nav-list { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--paper); border-bottom: 1px solid var(--line); padding: .6rem 1.25rem 1rem; flex-direction: column; }
+    .js .nav-list.open { display: flex; }
+    .nav-list a { padding: .7rem .75rem; }
+    .grid-2, .contact-list { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media print { .site-header, .btn-row { display: none; } section { padding: 1.2rem 0; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">Gourav Chahal</a>
+    <nav aria-label="Main">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list">Menu</button>
+      <ul class="nav-list" id="nav-list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#journey">Journey</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <div class="hero" id="top">
+    <div class="wrap">
+      <p class="eyebrow">Weed science · Field trials · Data science</p>
+      <h1>Gourav Chahal</h1>
+      <p class="role">Weed Science PhD Student, Auburn University</p>
+      <p class="pitch">I study herbicide efficacy and weed management in high-residue conservation tillage systems, combining replicated field trials with application technology and data science.</p>
+      <p class="avail">PhD completing Summer 2027 — available immediately after</p>
+      <div class="btn-row">
+        <!-- CV file: add assets/Gourav_Chahal_CV.pdf to the repository -->
+        <a class="btn btn-primary" href="assets/Gourav_Chahal_CV.pdf">Download CV (PDF)</a>
+        <a class="btn btn-ghost" href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">About</p>
+        <h2>From a family farm to field trials and evidence synthesis</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>I am a PhD student in Weed Science at Auburn University, with a minor in Applied Statistics and a graduate certificate in Data Science. My research centers on herbicide efficacy and weed management in high-residue conservation tillage systems, across row crops and forages.</p>
+          <p>My work combines 15+ replicated field trials with application technology and data science. I have led data analysis for 21 projects, including four PRISMA-guided meta-analyses, and I build decision-support tools such as the Alabama ESA Mitigation Points Calculator. I work with collaborators at Auburn, USDA-ARS, Penn State, Nebraska and Illinois on joint trials, meta-analyses and grant proposals.</p>
+          <p>I care about getting research to the people who use it. I have presented weed management recommendations to 200+ growers and advisers through one-to-one communication and extension field days. I am a licensed pesticide applicator in Alabama and an FAA Part 107 pilot, and I received the 2026 CSSA Gerald O. Mott Meritorious Graduate Student Award in Crop Science.</p>
+          <p>I finish my PhD in Summer 2027 and am available immediately after.</p>
+        </div>
+        <figure class="portrait">
+          <img src="images/portrait.jpg" width="150" height="150" alt="Gourav Chahal smiling beside his Auburn research poster at CANVAS 2026, wearing a dark blazer and a conference badge.">
+          <figcaption>Gourav Chahal at CANVAS 2026, beside his forage meta-analysis poster.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JOURNEY ============ -->
+  <section id="journey" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Journey</p>
+        <h2>How I got here</h2>
+      </div>
+      <ol class="timeline" style="list-style:none;margin-top:0;margin-bottom:0;">
+        <li>
+          <span class="when">Age 16</span>
+          <h3>Managing the family farm in India</h3>
+          <p>Managed the family 15-acre farm with my grandfather, growing guava, rice, wheat and mustard.</p>
+        </li>
+        <li>
+          <span class="when">2018 – 2023</span>
+          <h3>B.S., Agricultural Sciences (Agronomy)</h3>
+          <p>CCS Haryana Agricultural University, India. Undergraduate research assistant (2020–2022) on three projects, creating QGIS field maps and assisting with sampling.</p>
+        </li>
+        <li>
+          <span class="when">2023 – 2025</span>
+          <h3>M.S., Plant Science (Weed Science)</h3>
+          <p>Auburn University, completed August 2025. Thesis: Evaluation of Integrated Weed Control Practices in Conservation Agriculture Legume Row Crops.</p>
+        </li>
+        <li>
+          <span class="when">Expected Summer 2027</span>
+          <h3>Ph.D., Plant Science (Weed Science)</h3>
+          <p>Auburn University, Department of Crop, Soil and Environmental Sciences. Advisors: Dr. Andrew J. Price and Dr. David P. Russell. Dissertation (working title): Optimization of herbicide efficacy and weed management in high-residue conservation tillage systems.</p>
+        </li>
+        <li>
+          <span class="when">Alongside the Ph.D.</span>
+          <h3>Graduate Certificate in Data Science and Minor in Applied Statistics</h3>
+          <p>Auburn University.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ RESEARCH ============ -->
+  <section id="research">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Research</p>
+        <h2>Field trials, application technology and meta-analysis</h2>
+        <p>Graduate Research Assistant in Weed Science at Auburn University since August 2023.</p>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card stat"><div class="num">21</div><div class="lbl">projects with data analysis led</div></div>
+        <div class="card stat"><div class="num">15+</div><div class="lbl">replicated herbicide field trials, 4 industry-sponsored</div></div>
+        <div class="card stat"><div class="num">4</div><div class="lbl">PRISMA-guided meta-analyses</div></div>
+        <div class="card stat"><div class="num">200+</div><div class="lbl">growers reached through one-to-one communication and extension field days</div></div>
+      </div>
+
+      <h3 class="sub">Meta-analyses (PRISMA-guided)</h3>
+      <div class="grid grid-2">
+        <article class="card">
+          <h3>Forage herbicide meta-analysis</h3>
+          <p class="figure-line">+17.9% forage yield</p>
+          <p class="figure-note">where weeds were controlled · 13 studies, 185 contrasts</p>
+          <p>Impact of chemical weed control on forage productivity in Southern U.S. permanent pastures. I am leading extraction, analysis and the first draft.</p>
+        </article>
+        <article class="card">
+          <h3>Critical period for weed control (CPWC) in row crops</h3>
+          <p class="figure-line">+59.9% delay</p>
+          <p class="figure-note">in the critical period for weed control · 103 contrasts, 34 studies, 51 site-years</p>
+          <p>Influence of agronomic interventions on the critical period for weed control in row crops. In preparation for <em>Weed Technology</em>.</p>
+        </article>
+        <article class="card">
+          <h3>Herbicides and the soil microbiome</h3>
+          <p>Herbicide effects on microbial biomass, respiration and dehydrogenase. I led the whole analysis for this meta-analysis.</p>
+        </article>
+        <article class="card">
+          <h3>Spray drift in UAV applications</h3>
+          <p>Global meta-analysis of spray-drift drivers in UAV applications. I ran the sensitivity analysis and am a co-author.</p>
+        </article>
+      </div>
+
+      <h3 class="sub">Field research and work in progress</h3>
+      <ul class="plain-list" style="max-width:50rem;">
+        <li><strong>Peanut CPWC field trials.</strong> Quantified how five winter cover crop systems shift the critical period for weed control in strip-tilled peanut across three site-years (split-plot design). Cereal rye narrowed the CPWC to 3.2–5.8 weeks.</li>
+        <li><strong>Cotton CPWC field trials.</strong> Influence of winter cover crops on the critical period for weed control in conservation tillage cotton systems.</li>
+        <li><strong>Nozzle and spraying-technique trials.</strong> Compared spraying techniques for pre-emergence (PRE) herbicide application in high-residue systems, including conventional ground equipment.</li>
+        <li><strong>Drone application (assisting).</strong> Assisted with a two-season (2024–2025) on-farm PRE trial comparing drone and ground sprayer application for annual ryegrass control.</li>
+        <li><strong>Amaranthus chemical-management meta-analysis (in progress).</strong> PRISMA-guided meta-analysis of chemical management of <em>Amaranthus</em> spp. in U.S. row crops, in collaboration with researchers at Penn State University and the University of Nebraska-Lincoln. Data are extracted and analysis is in progress.</li>
+      </ul>
+
+      <!-- =====================================================================
+           FIELD PHOTO SLOTS
+           Each figure below stays hidden until its image file exists.
+           To add a photo:
+             1. Save the file in the repository at the path shown in data-src
+                (for example images/field-trial-1.jpg).
+             2. Write a real description in data-alt and a caption in <figcaption>.
+           The page then shows the photo automatically. Use only your own photos.
+           ===================================================================== -->
+      <div class="photo-grid">
+        <!-- PHOTO SLOT 1: images/field-trial-1.jpg -->
+        <figure class="photo-slot" hidden data-src="images/field-trial-1.jpg" data-alt="Mature cotton field at sunset in Fairhope, Alabama, with cotton bolls in the foreground.">
+          <figcaption>Cotton field trial site at sunset, Fairhope, Alabama.</figcaption>
+        </figure>
+        <!-- PHOTO SLOT 2: images/field-trial-2.jpg -->
+        <figure class="photo-slot" hidden data-src="images/field-trial-2.jpg" data-alt="A John Deere cotton picker working in a cotton field in Fairhope, Alabama.">
+          <figcaption>Cotton harvest in Fairhope, Alabama.</figcaption>
+        </figure>
+        <!-- PHOTO SLOT 3: images/field-trial-3.jpg -->
+        <figure class="photo-slot" hidden data-src="images/field-trial-3.jpg" data-alt="A freshly harvested peanut plant held up by its vines, pods attached to the roots, with soil visible.">
+          <figcaption>Freshly harvested peanut plant, pods on the roots.</figcaption>
+        </figure>
+      </div>
+      <figure style="max-width: 40rem; margin: 2rem 0 0;">
+        <img src="images/presentation-canvas.jpg" alt="Gourav Chahal presenting the CPWC meta-analysis at a podium at CANVAS 2026, beside his title slide." loading="lazy" style="width: 100%; border-radius: var(--radius); border: 1px solid var(--line);">
+        <figcaption>Presenting the CPWC meta-analysis at CANVAS 2026.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Projects and tools</p>
+        <h2>Decision-support tools I have built</h2>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <span class="tag">React · TypeScript</span>
+          <h3><a href="https://github.com/gzc0063-hub/alabama-esa-calculator">Alabama ESA Mitigation Points Calculator</a></h3>
+          <p>Live web app for cotton, soybean, peanut and corn that plans herbicide programs for Endangered Species Act (ESA) compliance by scoring field-level mitigation points, with automated USDA hydrologic soil group lookup.</p>
+          <p class="links"><a href="https://gzc0063-hub.github.io/alabama-esa-calculator/">Open the app</a><a href="https://github.com/gzc0063-hub/alabama-esa-calculator">GitHub repository</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Python · Streamlit</span>
+          <h3><a href="https://github.com/gzc0063-hub/ppo-amaranthus-resistance-dashboard">PPO target-site resistance platform and dashboard</a></h3>
+          <p>A literature-curation and data tool: a searchable, dual-curator-reviewed database of PPO target-site resistance cases reported in the literature, and an interactive <em>Amaranthus</em> dashboard that maps reported mutations onto protein structures.</p>
+          <p class="links"><a href="https://ppo-target-site-resistance.netlify.app/">Open the database</a><a href="https://ppo-amaranthus-resistance-dashboard.streamlit.app/">Open the dashboard</a><a href="https://github.com/gzc0063-hub/ppo-amaranthus-resistance-dashboard">GitHub repository</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Canada</span>
+          <h3><a href="https://github.com/gzc0063-hub/prairie-tracker">Prairie herbicide label and regulatory change tracker</a></h3>
+          <p>A tracker for herbicide label and regulatory changes relevant to the Canadian Prairies.</p>
+          <p class="links"><a href="https://github.com/gzc0063-hub/prairie-tracker">GitHub repository</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Python · Streamlit · Prototype</span>
+          <h3><a href="https://github.com/gzc0063-hub/extension-edge">Extension Edge</a></h3>
+          <p>Pasture weed-control planning aid that screens herbicide options against 2026 Alabama Cooperative Extension System recommendations.</p>
+          <p class="links"><a href="https://extension-edge-aces-au-gc.streamlit.app/">Open the app</a><a href="https://github.com/gzc0063-hub/extension-edge">GitHub repository</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PUBLICATIONS ============ -->
+  <section id="publications">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Publications</p>
+        <h2>Publications</h2>
+        <p>Complete publication and citation record: <a href="https://scholar.google.com/citations?hl=en&amp;user=z2h0P88AAAAJ">Google Scholar</a>.</p>
+      </div>
+
+      <h3 class="sub" style="margin-top:0;">Published</h3>
+      <ul class="pubs">
+        <li>
+          <div class="authors">Chahal, G., and Price, A.J. (2026)</div>
+          <div class="title">Warm-season leguminous cover crops.</div>
+          <div class="venue">In Duiker &amp; Clark (Eds.), <em>Cover crops for sustainable soil management</em> (pp. 395–422). Burleigh Dodds.</div>
+          <div class="doi"><a href="https://doi.org/10.19103/AS.2025.0162.16">doi.org/10.19103/AS.2025.0162.16</a></div>
+        </li>
+        <li>
+          <div class="authors">Russell, D.P., Chahal, G., and Thompson, G. (2026)</div>
+          <div class="title">Wolftail Sedge: Identification &amp; Management in Forage Systems.</div>
+          <div class="venue">Alabama Cooperative Extension System, ANR-3282 (peer-reviewed extension publication).</div>
+          <div class="doi"><a href="https://www.aces.edu/blog/topics/farming/wolftail-sedge-identification-management-in-forage-systems/">Read on aces.edu</a></div>
+        </li>
+        <li>
+          <div class="authors">Kumar, S., Dadarwal, R.S., Mal, T., Devi, P., Kumari, A., and Chahal, G. (2024)</div>
+          <div class="title">Efficacy of sequential application of herbicide mixture for management of multiple herbicide-resistant <em>Phalaris minor</em> in wheat (<em>Triticum aestivum</em>).</div>
+          <div class="venue"><em>The Indian Journal of Agricultural Sciences</em>, 94(5), 495–500.</div>
+          <div class="doi"><a href="https://doi.org/10.56093/ijas.v94i4.144137">doi.org/10.56093/ijas.v94i4.144137</a></div>
+        </li>
+        <li>
+          <div class="authors">Loyal, A., Pahuja, S.K., Duhan, D.S., Rani, N., Kapoor, D., Srivastava, R.K., ... and Chahal, G. (2024)</div>
+          <div class="title">Role of biodegradable mulching films and vegetable-derived biostimulant application for enhancing plants performance and nutritive value.</div>
+          <div class="venue">In <em>Biostimulants in Plant Protection and Performance</em> (pp. 185–203). Elsevier.</div>
+          <div class="doi"><a href="https://doi.org/10.1016/B978-0-443-15884-1.00020-8">doi.org/10.1016/B978-0-443-15884-1.00020-8</a></div>
+        </li>
+        <li>
+          <div class="authors">Ankush, Prakash, R., Singh, V., Diwedi, A., Popat, R.C., Kumari, S., Kumar, N., ... and Chahal, G. (2021)</div>
+          <div class="title">Sewage sludge impacts on yields, nutrients and heavy metals contents in pearl millet–wheat system grown under saline environment.</div>
+          <div class="venue"><em>International Journal of Plant Production</em>, 15, 93–105.</div>
+          <div class="doi"><a href="https://doi.org/10.1007/s42106-020-00122-4">doi.org/10.1007/s42106-020-00122-4</a></div>
+        </li>
+        <li>
+          <div class="authors">Prakash, R., Prakash, D., Kumar, S., Satyavan, and Chahal, G. (2020)</div>
+          <div class="title">Survey and characterization of groundwater quality for irrigation in Faridabad District, Haryana, India.</div>
+          <div class="venue"><em>Journal of Soil Salinity and Water Quality</em>, 12(1), 22–27.</div>
+        </li>
+      </ul>
+
+      <h3 class="sub">Under review and submitted</h3>
+      <ul class="pubs">
+        <li>
+          <div class="authors">Chahal, G., Price, A.J., Kumari, A., Bonnell, C., Li, S., and Gamble, A.</div>
+          <div class="title">Integrating cover crops singular or in mixture with herbicides for weed control in peanut grown utilizing regenerative agriculture practices.</div>
+          <div class="venue"><em>Weed Technology</em> (under review).</div>
+        </li>
+        <li>
+          <div class="authors">Chahal, G., Tunde, A., Price, A.J., Russell, D.P., and Maity, A.</div>
+          <div class="title">Current situation of cover crop adoption and its impact on weed control in Alabama.</div>
+          <div class="venue"><em>Highlights in Agricultural Research</em>, Alabama Agricultural Experiment Station (submitted).</div>
+        </li>
+        <li>
+          <div class="authors">Russell, D.P., Chahal, G., Duncan, H., and Furlan, R.</div>
+          <div class="title">Is Weed Management Worth It?</div>
+          <div class="venue">Alabama Cattlemen's Association (submitted).</div>
+        </li>
+      </ul>
+
+      <h3 class="sub">In preparation</h3>
+      <ul class="pubs">
+        <li>
+          <div class="authors">Chahal, G., Khanal, K., Bonnell, C., and Price, A.J.</div>
+          <div class="title">Influence of agronomic interventions on the critical period for weed control in row crops: a systematic review and meta-analysis.</div>
+          <div class="venue">In preparation, <em>Weed Science</em>.</div>
+        </li>
+        <li>
+          <div class="authors">Chahal, G., Duncan, H., Russell, D.P., and Price, A.J.</div>
+          <div class="title">Impact of chemical weed control on forage productivity in Southern US permanent pastures: a systematic review and meta-analysis.</div>
+          <div class="venue">In preparation.</div>
+        </li>
+        <li>
+          <div class="authors">Bhimavarapu, K., Chahal, G., Wilson, A.E., Weigand, K., Price, A.J., and Huber, L.</div>
+          <div class="title">The impact of manure application on the spread of antimicrobial resistance and residues across plant tissues: a systematic review and meta-analysis.</div>
+          <div class="venue">In preparation.</div>
+        </li>
+        <li>
+          <div class="authors">Bhimavarapu, K., Santana-Pereira, A.L.R., Bruce, T.J., Chahal, G., Appuhami, I.A., Padeniya, U., Price, A.J., and Huber, L.</div>
+          <div class="title">Role of manure application in the transmission of antimicrobial resistance (AMR) across different plant varieties through nanopore sequencing.</div>
+          <div class="venue">In preparation.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS, GRANTS, AWARDS ============ -->
+  <section id="skills" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Skills, grants and awards</p>
+        <h2>What I bring</h2>
+      </div>
+
+      <h3 class="sub" style="margin-top:0;">Skills</h3>
+      <ul class="chips">
+        <li>R</li>
+        <li>Python</li>
+        <li>SAS</li>
+        <li>Mixed models</li>
+        <li>Meta-analysis</li>
+        <li>ArcGIS</li>
+        <li>Pix4D</li>
+        <li>UAS / drone imagery</li>
+        <li>FAA Part 107</li>
+        <li>Licensed pesticide applicator (Alabama)</li>
+        <li>Extension and field days</li>
+      </ul>
+
+      <h3 class="sub">Grants</h3>
+      <div class="grid grid-2">
+        <article class="card">
+          <p class="meta">Alabama Soybean Board · Funded, 2026</p>
+          <h3>Optimizing Pre-Emergence Herbicide Systems in High-Residue Conservation Tillage for Alabama Soybean Production</h3>
+          <p>Russell, D.P., and Chahal, G. PI: Dr. David Russell.</p>
+        </article>
+        <article class="card">
+          <p class="meta">WSSA Innovative Grants Program · Submitted, September 2026</p>
+          <h3>AI-Assisted Literature Surveillance to Expand and Enrich Global Herbicide-Resistance Monitoring</h3>
+          <p>$38,108 requested. Role: Project Coordinator. PI: Dr. Patrick Tranel.</p>
+        </article>
+      </div>
+
+      <h3 class="sub">Awards and honors</h3>
+      <ul class="plain-list" style="max-width:50rem;">
+        <li><strong>Gerald O. Mott Meritorious Graduate Student Award in Crop Science</strong>, Crop Science Society of America (CSSA), 2026</li>
+        <li><strong>1st Place, Ph.D. Poster Competition</strong>, APRES Annual Meeting, San Juan, PR, July 2026</li>
+        <li><strong>3rd Place, Ph.D. Poster Competition</strong>, WSSA Annual Meeting, 2026</li>
+        <li><strong>3rd Place, Ph.D. Poster Competition</strong>, ASA-CSSA-SSSA Annual Meeting, November 2025</li>
+        <li><strong>1st Place, Ph.D. Poster Competition</strong>, Auburn University College of Agriculture Research Poster Showcase, October 2025</li>
+        <li><strong>3rd Place, M.S. Poster Competition</strong>, ASA-CSSA-SSSA Annual Meeting, November 2024</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Contact</p>
+        <h2>Get in touch</h2>
+        <p>PhD completing Summer 2027, available immediately after. Open to roles in Canada, the United States and elsewhere.</p>
+      </div>
+      <ul class="contact-list">
+        <li class="card"><div class="lbl">Email</div><a href="mailto:gzc0063@auburn.edu">gzc0063@auburn.edu</a></li>
+        <li class="card"><div class="lbl">LinkedIn</div><a href="https://www.linkedin.com/in/gouravchahal">linkedin.com/in/gouravchahal</a></li>
+        <li class="card"><div class="lbl">Google Scholar</div><a href="https://scholar.google.com/citations?hl=en&amp;user=z2h0P88AAAAJ">Google Scholar profile</a></li>
+        <li class="card"><div class="lbl">GitHub</div><a href="https://github.com/gzc0063-hub">github.com/gzc0063-hub</a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Gourav Chahal</p>
+    <p>Built with care. Research numbers on this site are from his verified work.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+
+  // Mobile menu
+  var toggle = document.querySelector('.nav-toggle');
+  var list = document.getElementById('nav-list');
+  function closeMenu() { list.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+  toggle.addEventListener('click', function () {
+    var open = list.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  list.addEventListener('click', function (e) { if (e.target.tagName === 'A') closeMenu(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+  // Highlight the current section in the nav
+  var links = Array.prototype.slice.call(list.querySelectorAll('a'));
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var a = byId[en.target.id];
+        if (a) a.setAttribute('aria-current', 'true');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section[id]').forEach(function (s) { io.observe(s); });
+  }
+
+  // Photo slots: show a figure only once its image file exists in the repository
+  document.querySelectorAll('figure.photo-slot[data-src]').forEach(function (fig) {
+    var img = new Image();
+    img.onload = function () {
+      img.alt = fig.getAttribute('data-alt') || '';
+      img.loading = 'lazy';
+      fig.insertBefore(img, fig.firstChild);
+      fig.hidden = false;
+    };
+    img.src = fig.getAttribute('data-src');
+  });
+})();
+</script>
+</body>
+</html>
