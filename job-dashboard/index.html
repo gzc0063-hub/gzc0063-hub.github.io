@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gourav Chahal: job dashboard</title>
+<meta name="description" content="Public job dashboard for Gourav Chahal, PhD student in Weed Science at Auburn University. Postings, deadlines and source coverage.">
+<style>
+  :root {
+    --ink: #1b1b1b;
+    --soft: #55554f;
+    --rule: #d8d8d2;
+    --green: #2c6a3f;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px 60px; }
+  a { color: var(--green); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  header.top { padding: 38px 0 18px; border-bottom: 2px solid var(--ink); }
+  header.top h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 6px; font-weight: 700; }
+  header.top p { margin: 0; color: var(--soft); max-width: 46em; }
+  .stamp { font-size: 0.88rem; margin-top: 10px !important; }
+
+  nav.jump { padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 0.95rem; }
+  nav.jump a { margin-right: 18px; white-space: nowrap; display: inline-block; padding: 3px 0; }
+
+  h2 { font-size: 1.45rem; margin: 46px 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--ink); }
+  h3 { font-size: 1.12rem; margin: 30px 0 10px; }
+  h3 .n { font-weight: 400; color: var(--soft); }
+  p.lead { color: var(--soft); margin: 8px 0 14px; max-width: 48em; }
+  .small { font-size: 0.88rem; color: var(--soft); }
+
+  /* counts */
+  .counts { display: flex; flex-wrap: wrap; gap: 0; margin: 22px 0 6px; border: 1px solid var(--rule); }
+  .counts div { flex: 1 1 180px; padding: 14px 18px; border-right: 1px solid var(--rule); }
+  .counts div:last-child { border-right: 0; }
+  .counts b { display: block; font-size: 2rem; line-height: 1.1; color: var(--green); }
+  .counts span { font-size: 0.92rem; color: var(--soft); }
+
+  /* filter */
+  .filter { margin: 14px 0 4px; font-size: 0.95rem; }
+  .filter button {
+    font: inherit; background: none; border: 0; padding: 4px 0; margin-right: 16px;
+    color: var(--green); cursor: pointer; border-bottom: 2px solid transparent;
+  }
+  .filter button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--green); font-weight: 700; }
+
+  /* cards */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { border: 1px solid var(--rule); border-left: 3px solid var(--green); padding: 14px 16px 12px; }
+  .card.quiet { border-left-color: var(--rule); }
+  .card h4 { margin: 0 0 2px; font-size: 1.05rem; line-height: 1.3; }
+  .card .org { margin: 0 0 8px; color: var(--soft); font-size: 0.95rem; }
+  .card dl { margin: 0; display: grid; grid-template-columns: 6.6em 1fr; gap: 3px 10px; font-size: 0.92rem; }
+  .card dt { color: var(--soft); }
+  .card dd { margin: 0; }
+  .card .foot { margin: 9px 0 0; font-size: 0.82rem; color: var(--soft); }
+  .none { border: 1px dashed var(--rule); padding: 12px 16px; color: var(--soft); font-size: 0.95rem; }
+  .soon { color: var(--green); font-weight: 700; }
+
+  /* tables */
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 6px 0 10px; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 700; border-bottom: 1px solid var(--ink); }
+  td.flag { color: var(--green); font-weight: 700; white-space: nowrap; }
+  td .sub { display: block; color: var(--soft); font-size: 0.85rem; font-weight: 400; }
+  th { white-space: nowrap; }
+  #cov td:nth-child(4) { min-width: 9.5em; }
+
+  ul.plain, ol.plain { padding-left: 1.2em; margin: 8px 0; max-width: 50em; }
+  ul.plain li, ol.plain li { margin: 4px 0; }
+  .note { border-left: 3px solid var(--green); padding: 4px 0 4px 14px; margin: 14px 0; max-width: 50em; }
+
+  footer { margin-top: 50px; padding-top: 14px; border-top: 2px solid var(--ink); font-size: 0.88rem; color: var(--soft); }
+
+  @media (max-width: 820px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 15px 44px; }
+    header.top h1 { font-size: 1.6rem; }
+    .counts div { border-right: 0; border-bottom: 1px solid var(--rule); flex-basis: 100%; }
+    .counts div:last-child { border-bottom: 0; }
+    /* tables become stacked rows */
+    table, thead, tbody, tr, th, td { display: block; }
+    thead { position: absolute; left: -9999px; }
+    tr { border-bottom: 1px solid var(--ink); padding: 8px 0; }
+    td { border: 0; padding: 2px 0; }
+    td[data-l]::before { content: attr(data-l) ": "; color: var(--soft); }
+    td.first { font-weight: 700; }
+    td.first::before { content: ""; }
+    td:empty { display: none; }
+    #cov td:nth-child(4) { min-width: 0; }
+  }
+  @media print {
+    nav.jump, .filter { display: none; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Gourav Chahal: job dashboard</h1>
+  <p>PhD student in Weed Science, Auburn University, finishing Summer 2027. Looking for research roles. Canada first, then USA, then New Zealand, then the rest of the world.</p>
+  <p class="stamp">Public page. Postings, deadlines and source coverage only. Data last updated <span id="asof"></span>. Today is <span id="today"></span>.</p>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <a href="#pipeline">Pipeline</a>
+  <a href="#deadlines">Deadlines</a>
+  <a href="#coverage">Coverage</a>
+  <a href="#networking">Networking</a>
+  <a href="#cv">CV queue</a>
+  <a href="#notes">Notes</a>
+</nav>
+
+<noscript><p class="note">This page builds its lists with a small script. Turn on JavaScript to see the pipeline, deadlines and coverage.</p></noscript>
+
+<section aria-label="Counts">
+  <div class="counts">
+    <div><b id="c-sub">0</b><span>applications submitted</span></div>
+    <div><b id="c-rep">0</b><span>replies received</span></div>
+    <div><b id="c-pack">0</b><span>packets ready</span></div>
+  </div>
+  <p class="small" id="c-note"></p>
+</section>
+
+<section id="pipeline">
+  <h2>Pipeline</h2>
+  <p class="lead">Every role here was read on a posting page and logged with the date of the check. Eligible and fit are stated separately. A role is re-checked on the official board the day before any packet is built.</p>
+  <div class="filter" role="group" aria-label="Filter by place">
+    <button type="button" data-geo="all" aria-pressed="true">All</button>
+    <button type="button" data-geo="Canada" aria-pressed="false">Canada</button>
+    <button type="button" data-geo="USA" aria-pressed="false">USA</button>
+    <button type="button" data-geo="New Zealand" aria-pressed="false">New Zealand</button>
+    <button type="button" data-geo="Global" aria-pressed="false">Global</button>
+  </div>
+  <div id="groups"></div>
+  <p class="small">Left off this page: roles logged as not eligible, roles found only on a mirror that the official board did not confirm, and closed postings.</p>
+</section>
+
+<section id="deadlines">
+  <h2>Deadlines</h2>
+  <p class="lead">Counted from today. Decided roles are left out.</p>
+  <h3>This week</h3>
+  <div id="dl-week"></div>
+  <h3>Next 30 days</h3>
+  <div id="dl-month"></div>
+  <h3>Later dates on file</h3>
+  <div id="dl-later"></div>
+</section>
+
+<section id="coverage">
+  <h2>Coverage</h2>
+  <p class="lead">No search can promise zero missed jobs. This list shows every source, when it was last checked, and when the next check is due, so a gap is seen and not hidden. A source with no check date is a gap, not coverage.</p>
+  <div id="cov"></div>
+  <p class="small">Next check dates follow the sweep schedule: USA on Monday and Friday, Canada with New Zealand and global on Tuesday, a coverage audit on the 1st of each month. Many job boards block plain page reads, so some checks ran through a search index. Those are marked.</p>
+</section>
+
+<section id="networking">
+  <h2>Networking</h2>
+  <p class="lead">LinkedIn status only. This page never messages anyone and holds no message text.</p>
+  <div id="net"></div>
+  <h3>Standing rules</h3>
+  <ul class="plain">
+    <li>Every draft needs exact-text approval from Gourav before it is sent.</li>
+    <li>The thread is read first, every time, so nothing is sent twice.</li>
+    <li>An accepted invite from a target company or university gets a follow-up within 48 hours, asking for a 15 minute chat.</li>
+    <li>Academics are not cold-emailed. Connect on LinkedIn instead.</li>
+    <li>No automation, scraping or auto-apply tools.</li>
+    <li>Profile viewers are checked weekly, on Thursday.</li>
+  </ul>
+</section>
+
+<section id="cv">
+  <h2>CV queue</h2>
+  <p class="lead">Items waiting for the next CV version. The current master is CV v3.</p>
+  <p class="note"><strong>Rule:</strong> the master CV is never silently rewritten. Each item waits here until Gourav approves a new version.</p>
+  <div id="cvq"></div>
+  <p class="note"><strong>CV v3 is stale in two places.</strong> It lists the critical period for weed control (CPWC) meta-analysis as 116 contrasts and in preparation for Weed Science. The current numbers are 103 contrasts from 34 studies, and the target journal is Weed Technology. Any packet uses the current numbers, not the CV v3 text.</p>
+</section>
+
+<section id="notes">
+  <h2>Notes</h2>
+  <h3>Role families, ranked by fit</h3>
+  <ol class="plain">
+    <li>Industry field research or R&amp;D scientist, crop protection. Best fit.</li>
+    <li>Extension weed management advisor or specialist. Best fit.</li>
+    <li>Assistant professor or lecturer, weed science or agronomy. Good fit, a stretch where a postdoc is required.</li>
+    <li>Agricultural data scientist or biostatistician. Good fit.</li>
+    <li>Postdoctoral researcher. A bridge role, open after the PhD is in hand.</li>
+    <li>Government research scientist. Good fit on content, limited by work authorisation rules.</li>
+    <li>Ag-tech and startup research roles. Reached through founders, not postings.</li>
+    <li>Nonprofit and foundation research roles. Fixed-term posts carry lower stability.</li>
+  </ol>
+
+  <h3>How this page is kept</h3>
+  <ul class="plain">
+    <li>Sweeps run Monday (USA), Tuesday (Canada, New Zealand, global) and Friday (USA, second pass).</li>
+    <li>A find is listed only after the official posting is opened and read. A mirror or a search snippet is not a listing.</li>
+    <li>Eligible means the timing and work authorisation can work. Fit means the content matches. They are never merged.</li>
+    <li>Where a posting says nothing about sponsorship, the label says "sponsorship unstated".</li>
+    <li>Nothing is applied for and nothing is sent without approval from Gourav. This page changes what is seen, not what is sent.</li>
+  </ul>
+
+  <h3>Gaps in the data behind this page</h3>
+  <ul class="plain">
+    <li>The postings log refers to two sweeps whose entries are not in the log itself: a global sweep on Oct 8, 2026 and a sweep on Nov 12, 2026. Roles first logged there show "not recorded" where a label is missing.</li>
+    <li>LinkedIn counts for pending invites and follow-ups are not in the logs. They show as not yet verified.</li>
+  </ul>
+</section>
+
+<footer>
+  Built by hand from the postings log, the application log and CV v3. Private details stay off this page: no referees, no pay figures, no notes on conversations with employers.
+</footer>
+
+</div>
+
+<script>
+/* ---------------------------------------------------------------
+   DATA. Everything below comes from seen_postings.md,
+   application_log.md, the two plan files and CV v3.
+   Nothing here is invented. Replace this block to update the page.
+   --------------------------------------------------------------- */
+var ASOF = "2026-11-15";
+
+var GROUPS = [
+  { key: "apply",   title: "Apply now",     empty: "Nothing is marked apply now." },
+  { key: "packets", title: "Packets ready", empty: "No packet is recorded as ready and unsent." },
+  { key: "watch",   title: "Watchlist",     empty: "Nothing on the watchlist." },
+  { key: "applied", title: "Applied",       empty: "No applications on record." },
+  { key: "decided", title: "Decided",       empty: "Nothing decided yet." }
+];
+
+var NOPACK = "No packet on record";
+var RECHECK = "Re-check the official page at the next sweep.";
+
+var JOBS = [
+  /* ---------- APPLY NOW ---------- */
+  { g: "apply", geo: "Canada",
+    role: "Biology Area Manager, Black Soil Zone", org: "BASF Agricultural Solutions",
+    loc: "Remote, Edmonton AB or Saskatoon SK",
+    dlText: "No deadline shown. Posted Nov 2, 2026.",
+    eligible: "Yes per the log. Sponsorship unstated. The posting asks for at least 2 years of field trials in Western Canada.",
+    fit: "Strong. Weed science and herbicide resistance, local field trials, protocols and data summaries.",
+    packet: NOPACK, next: "Re-check the official posting, then decide on a packet. Immediate hire, so timing is the open question.",
+    checked: "2026-11-03",
+    url: "https://basf.jobs/dark_green_agri/job/Biology-Area-Manager-Black-Soil-Zone/144786-en_US" },
+
+  { g: "apply", geo: "USA",
+    role: "Agricultural Biologist (herbicide development)", org: "BASF Agricultural Solutions",
+    loc: "Research Triangle Park, NC",
+    dl: { d: "2027-05-02", what: "open until" },
+    eligible: "Yes, conditional. Posting: must be currently authorized to work in the United States.",
+    fit: "Strong on content, partial on level. Pitched at MS or early career.",
+    packet: NOPACK, next: "Decide on a packet. The long window fits a Summer 2027 finish.",
+    checked: "2026-11-06",
+    url: "https://basf.jobs/dark_green_agri/job/Agricultural-Biologist/145854-en_US" },
+
+  { g: "apply", geo: "USA",
+    role: "Cooperative Extension Nutrient Management and Forage Systems Advisor (JPF00415)", org: "UC Agriculture and Natural Resources",
+    loc: "Modesto, CA",
+    dl: { d: "2026-12-08", what: "next review" }, dlMore: "Final date Mar 30, 2027.",
+    eligible: "Yes, conditional. Posting: no visa sponsorship for new petitions. Master's needed at appointment.",
+    fit: "Strong to partial. Forage systems, nutrient and irrigation management, GIS.",
+    packet: NOPACK, next: "Build a packet in time for the Dec 8 review, after approval.",
+    checked: "2026-11-06",
+    url: "https://recruit.ucanr.edu/JPF00415" },
+
+  { g: "apply", geo: "USA",
+    role: "Research Investigator, Application Technology R&D", org: "Corteva Agriscience",
+    loc: "Indianapolis, IN",
+    dlText: "No deadline shown. Status not yet verified: one mirror now reads expired.",
+    eligible: "Conditional. Sponsorship unstated. Immediate opening. PhD in weed science named, 0 to 3 years.",
+    fit: "Strong. Spray application research.",
+    packet: NOPACK, next: "Open the official page in a live browser before any decision. Last seen live there Nov 13, 2026.",
+    checked: "2026-11-15", checkedNote: "official page did not load",
+    url: "https://corteva.eightfold.ai/careers/job/893397545886" },
+
+  /* ---------- PACKETS READY ---------- */
+  { g: "packets", geo: "Global",
+    role: "Field Scientist", org: "Corteva Agriscience",
+    loc: "Thessaloniki, Greece",
+    dlText: "Deadline not recorded in the logs.",
+    eligible: "Not yet verified.",
+    fit: "Not yet verified.",
+    packet: "CV and cover built Nov 12, 2026, awaiting approval.", next: "Verify the live posting before deciding.",
+    checkedText: "Packet built Nov 12, 2026" },
+
+  { g: "packets", geo: "Global",
+    role: "Postdoctoral Research Fellow, Restoration", org: "Western Sydney University",
+    loc: "Australia",
+    dl: { d: "2026-11-23", what: "closes" },
+    eligible: "Yes. Sponsorship stated in the posting.",
+    fit: "Postdoc, a bridge role. Restoration focus.",
+    packet: "CV and cover built Nov 12, 2026, awaiting approval.", next: "Approve to apply before Nov 23.",
+    checkedText: "Packet built Nov 12, 2026" },
+
+  /* ---------- WATCHLIST: Canada ---------- */
+  { g: "watch", geo: "Canada",
+    role: "Research Scientist, Centre for Innovation (smart agriculture)", org: "Olds College",
+    loc: "Olds, AB",
+    dl: { d: "2026-11-27", what: "apply by" },
+    eligible: "Conditional. Research PhD required. No work authorisation wording in the posting.",
+    fit: "Strong to partial. Precision agriculture and geospatial work in broad-acre crops.",
+    packet: NOPACK, next: "Decide before Nov 27.",
+    checked: "2026-11-10" },
+
+  { g: "watch", geo: "Canada",
+    role: "UBC Okanagan Postdoctoral Fellowships (competition, not a posted job)", org: "University of British Columbia, Okanagan",
+    loc: "UBC Okanagan, BC",
+    dl: { d: "2026-11-23", what: "pre-application" }, dlMore: "Full application Feb 2, 2027.",
+    eligible: "Yes. Open to international applicants. Needs a host supervisor.",
+    fit: "Depends on the host lab.",
+    packet: NOPACK, next: "Only worth it with a supervisor match.",
+    checked: "2026-11-09",
+    url: "https://gradstudies.ok.ubc.ca/postdocs/ubc-postdoctoral-fellowships/" },
+
+  { g: "watch", geo: "Canada",
+    role: "Canada Research Chair Tier 2, Sunflower Breeding and Genetics", org: "University of Manitoba, Plant Science",
+    loc: "Winnipeg, MB",
+    dl: { d: "2026-11-28", what: "closes" }, dlMore: "Or until filled. Start Apr 1, 2028.",
+    eligible: "Yes, conditional. PhD needed at the time of chair nomination, not at application.",
+    fit: "Stretch. Breeding and genetics, not weed science. Field trials and herbicide tolerance overlap.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-10" },
+
+  { g: "watch", geo: "Canada",
+    role: "Postdoctoral Research Fellows, perennial restoration and spatial synthesis (JR25730, JR25683)", org: "University of British Columbia",
+    loc: "Vancouver, BC",
+    dl: { d: "2026-11-29", what: "closes" },
+    eligible: "Doubtful on timing. PhD required, preferred start Jan 1, 2027. Canadians and permanent residents get priority.",
+    fit: "Partial. Spatial modelling and R.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-10-20",
+    url: "https://ubc.wd10.myworkdayjobs.com/en-US/ubcfacultyjobs/details/Postdoctoral-Research-Fellow_JR25730" },
+
+  { g: "watch", geo: "Canada",
+    role: "Tenure-Track Assistant Professor in Plant Biology (Job 78638)", org: "McMaster University",
+    loc: "Hamilton, ON",
+    dlText: "Review began Nov 1, 2026. Open until filled.",
+    eligible: "Yes on timing. Preferred start Jul 1, 2027. Canadians and permanent residents get priority.",
+    fit: "Stretch. Plant biology and genomics, not weed science.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-10" },
+
+  { g: "watch", geo: "Canada",
+    role: "Tenure-track faculty position in Agroecology", org: "Université Laval, Plant Science",
+    loc: "Québec City, QC",
+    dl: { d: "2027-01-10", what: "deadline" }, dlMore: "Start Sep 1, 2027.",
+    eligible: "Yes on timing. Teaching is in French, which is the practical barrier. Canadians and permanent residents get priority.",
+    fit: "Stretch to partial. Agroecology, not herbicide trials.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-10-20",
+    url: "https://www.rh.ulaval.ca/emplois-disponibles/corps-professoral/professeures-et-professeurs/HCM/11233" },
+
+  { g: "watch", geo: "Canada",
+    role: "Ag Professional Development Program, Research and Technical", org: "BASF Canada",
+    loc: "Winkler, MB",
+    dlText: "No intake open. The September 2026 intake opened and closed.",
+    eligible: "Program wording: must be eligible to work in Canada. M.Sc. required.",
+    fit: "Watch item. Start dates flex around the thesis defence.",
+    packet: NOPACK, next: "Watch for a new intake. BASF posts these in the fall and sometimes in spring.",
+    checked: "2026-11-10" },
+
+  /* ---------- WATCHLIST: USA ---------- */
+  { g: "watch", geo: "USA",
+    role: "Assistant Professor, AI in Soil and Crop Sciences (187745)", org: "Texas A&M University",
+    loc: "Location not recorded in the log",
+    dl: { d: "2026-11-18", what: "full consideration" }, dlMore: "Start Aug 16, 2027.",
+    eligible: "ABD is accepted and the start date fits.",
+    fit: "Not recorded in the log.",
+    packet: NOPACK, next: "Decide before Nov 18, or let it go.",
+    checked: "2026-11-06" },
+
+  { g: "watch", geo: "USA",
+    role: "Assistant Professor, Vegetable Production Systems (AJO 32782)", org: "Cornell AgriTech",
+    loc: "Geneva, NY",
+    dl: { d: "2026-11-25", what: "full consideration" }, dlMore: "Start July 2027.",
+    eligible: "Yes. PhD needed by appointment. Sponsorship unstated.",
+    fit: "Stretch. Vegetable systems, not weed science core.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-06",
+    url: "https://academicjobsonline.org/ajo/jobs/32782" },
+
+  { g: "watch", geo: "USA",
+    role: "Assistant or Associate Professor, Extension Agronomy (541509)", org: "University of Florida, North Florida REC",
+    loc: "Quincy, FL",
+    dl: { d: "2026-11-27", what: "full consideration" }, dlMore: "Available Feb 1, 2027.",
+    eligible: "Doubtful. The start comes before Summer 2027 and a PhD is required. Posting: UF does not sponsor employment visas for this position.",
+    fit: "Strong on topic. Peanut, cotton, corn and soybean research and Extension.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-09",
+    url: "https://explore.jobs.ufl.edu/en-us/job/541509/assistantassociate-professor-extension-agronomy" },
+
+  { g: "watch", geo: "USA",
+    role: "Assistant Professor, Computational Agricultural and Natural Systems Modeling (44631)", org: "Purdue University",
+    loc: "West Lafayette, IN",
+    dl: { d: "2026-11-30", what: "review begins" },
+    eligible: "Yes, conditional. PhD by the start of appointment. Sponsorship unstated.",
+    fit: "Partial to stretch. Modelling and machine learning as the main research thread.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-06",
+    url: "https://careers.purdue.edu/job/Assistant-Professor-of-Computational-Agricultural-and-Natural-Systems-Modeling/44631-en_US/" },
+
+  { g: "watch", geo: "USA",
+    role: "Cropping Systems Extension Specialist (2960152)", org: "North Dakota State University",
+    loc: "Dickinson, ND",
+    dl: { d: "2026-12-01", what: "screening begins" },
+    eligible: "Not labelled in the log. Master's required, PhD preferred. No work authorisation wording in the posting.",
+    fit: "Not labelled in the log. 90% Extension, 10% applied research.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-06" },
+
+  { g: "watch", geo: "USA",
+    role: "Agent, Urban Horticultural Production and Management Specialist", org: "University of Maryland Extension",
+    loc: "Ellicott City, MD",
+    dl: { d: "2026-12-03", what: "best consideration" },
+    eligible: "Conditional. Posting: not eligible for visa sponsorship.",
+    fit: "Partial, borderline. Extension and field trials match. Urban horticulture is a topic stretch.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-13",
+    url: "https://jobs.joe.org/job/university-of-maryland-extension-ellicott-city-16-agent-urban-horticultural-production-and-management-specialist/" },
+
+  { g: "watch", geo: "USA",
+    role: "Assistant, Associate or Full Professor, Extension Title Series (651915)", org: "University of Kentucky, Plant and Soil Sciences",
+    loc: "Lexington, KY",
+    dl: { d: "2026-12-14", what: "full consideration" }, dlMore: "Start Jul 1, 2027.",
+    eligible: "Yes. Sponsorship unstated.",
+    fit: "Partial to stretch. Tobacco and hemp Extension is the doubt.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-06",
+    url: "https://ukjobs.uky.edu/postings/651915" },
+
+  { g: "packets", geo: "USA",
+    role: "Assistant Professor, Cropping System Agronomist (posting 52000)", org: "Montana State University",
+    loc: "Havre, MT",
+    dl: { d: "2026-12-18", what: "screening" },
+    eligible: "Conditional. No sponsorship wording on the live page.",
+    fit: "Partial, stretch. Montana wheat, barley and pulse experience is the gap.",
+    packet: "CV and cover built Nov 12, 2026, awaiting approval.", next: "Approve to apply. Screening begins Dec 18, 2026.",
+    checked: "2026-11-15" },
+
+  { g: "watch", geo: "USA",
+    role: "Assistant Professor, Extension Row Crop Weed Scientist", org: "Mississippi State University",
+    loc: "Location not recorded in the log",
+    dlText: "Screening began Oct 8, 2026. Open until filled. Appointment May 1, 2027.",
+    eligible: "Not recorded in the log.",
+    fit: "Not recorded in the log.",
+    packet: NOPACK, next: "Confirm it is still open on the official page.",
+    checked: "2026-10-09",
+    url: "https://jobs.chronicle.com/job/38043580/assistant-professor-extension-row-crop-weed-scientist/", urlLabel: "Mirror listing" },
+
+  { g: "watch", geo: "USA",
+    role: "Assistant Professor and Extension Sugarbeet Agronomist (2959848)", org: "North Dakota State University",
+    loc: "Fargo, ND",
+    dlText: "Listed as Oct 1, 2026 or until filled. Still listed.",
+    eligible: "PhD needed by hire date. No work authorisation wording. First logged as a timing mismatch.",
+    fit: "Not labelled in the log. Weed management and cropping systems for sugarbeet.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-06" },
+
+  { g: "packets", geo: "USA",
+    role: "R&D Scientist 1, Weed Control R&D Team", org: "Syngenta Crop Protection",
+    loc: "Vero Beach, FL",
+    dlText: "No deadline shown.",
+    eligible: "Conditional. PhD (weed science preferred) or MS plus 3 years. Posting: all applicants must be eligible to work in the US. Immediate hire.",
+    fit: "Strong. Lab, greenhouse and field work on weed control products.",
+    packet: "CV and cover built Nov 12, 2026, awaiting approval.", next: "Approve to apply, or hold.",
+    checked: "2026-11-09",
+    url: "https://jobs.smartrecruiters.com/SyngentaGroup/744000109940678-r-d-scientist-1" },
+
+  { g: "watch", geo: "USA",
+    role: "Program Associate, Weed Science", org: "University of Arkansas Division of Agriculture",
+    loc: "Fayetteville, AR",
+    dlText: "No deadline shown.",
+    eligible: "Conditional. Posting: Sponsorship Available: No.",
+    fit: "Strong. About 100 field trials a year, data analysis, resistance screening.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-13", checkedNote: "mirror listing" },
+
+  { g: "watch", geo: "USA",
+    role: "Postdoctoral Research Associate, Container Nursery Weed Management", org: "University of Florida, Mid-Florida REC",
+    loc: "Apopka, FL",
+    dlText: "Open until filled. Start negotiable.",
+    eligible: "Yes per the log. PhD required. Posting: hiring is contingent upon eligibility to work in the US.",
+    fit: "Partial. Nursery systems, a stretch from row crops and forage.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-10-23",
+    url: "https://explore.jobs.ufl.edu/en-us/job/540657/postdoctoral-research-associate-in-container-nursery-ornamental-plant-production-weed-management" },
+
+  { g: "packets", geo: "USA",
+    role: "Product Development Scientist II (ref 895916)", org: "Bayer Crop Science",
+    loc: "Multiple US sites",
+    dlText: "Guaranteed window ended Nov 12, 2026. Still live Nov 15. May close any day.",
+    eligible: "Sponsorship unstated. PhD in breeding, genetics, statistics or data science, or MS plus 5 years.",
+    fit: "Stretch. Breeding and genetics core.",
+    packet: "CV and cover built Nov 12, 2026, awaiting approval.", next: "Approve to apply, or let it go.",
+    checked: "2026-11-15",
+    url: "https://talent.bayer.com/careers/job/562949978821096" },
+
+  /* ---------- WATCHLIST: New Zealand ---------- */
+  { g: "packets", geo: "New Zealand",
+    role: "Statistician", org: "DairyNZ",
+    loc: "New Zealand (site not recorded)",
+    dl: { d: "2026-11-29", what: "closes" },
+    eligible: "Not yet verified.",
+    fit: "Named in the platforms plan as the model role for the data scientist lane.",
+    packet: "CV and cover built Nov 12, 2026, awaiting approval.", next: "Approve to apply. Read the visa and eligibility line first.",
+    checkedText: "Listed in the platforms plan, Nov 16, 2026",
+    url: "https://dairynz.hosting.staffcv.com", urlLabel: "Careers board" },
+
+  { g: "watch", geo: "New Zealand",
+    role: "Lecturer in Agricultural Systems Management", org: "Lincoln University",
+    loc: "Lincoln, NZ",
+    dlText: "Closing date not captured.",
+    eligible: "Not yet verified. Seen on a mirror only. Visa wording not stated.",
+    fit: "Stretch. Farm systems and financial management.",
+    packet: NOPACK, next: "Find it on careers.lincoln.ac.nz and read the eligibility line.",
+    checked: "2026-11-02", checkedNote: "mirror listing" },
+
+  /* ---------- WATCHLIST: Global ---------- */
+  { g: "watch", geo: "Global",
+    role: "Senior Specialist, Data-Driven Agronomy (HQ01929)", org: "International Rice Research Institute (IRRI)",
+    loc: "Phnom Penh, Cambodia",
+    dl: { d: "2026-11-22", what: "closes" },
+    eligible: "Doubtful. PhD plus at least 2 years of postdoctoral experience. Open for international applications.",
+    fit: "Strong. R, GIS and remote sensing, spatial agronomy.",
+    packet: NOPACK, next: "Stretch. Decide before Nov 22.",
+    checked: "2026-11-09" },
+
+  { g: "watch", geo: "Global",
+    role: "Agricultural R&D Manager (fixed term, nonprofit)", org: "One Acre Fund",
+    loc: "Nairobi, Kenya",
+    dl: { d: "2027-01-08", what: "deadline" }, dlMore: "Rolling review.",
+    eligible: "Yes per the log. Posting: can support a work permit. Asks for PhD plus 3 years or MSc plus 5 years. Preferred start is as soon as possible.",
+    fit: "Strong. Trial design, statistics, data. Fixed term, so lower stability.",
+    packet: NOPACK, next: RECHECK,
+    checked: "2026-11-09",
+    url: "https://oneacrefund.org/vacancies/agricultural-rd-manager" },
+
+  /* ---------- APPLIED ---------- */
+  { g: "applied", geo: "USA", status: "submitted",
+    role: "Cooperative Extension Area Low Desert Weed Management Advisor (JPF00408)", org: "UC Agriculture and Natural Resources",
+    loc: "Holtville, CA",
+    dl: { d: "2026-11-15", what: "full consideration" }, dlMore: "Final date Feb 23, 2027.",
+    eligible: "Conditional. Posting: no visa sponsorship for new petitions.",
+    fit: "Strong. Applied weed management research and Extension.",
+    packet: "Applied Nov 15, 2026", next: "Wait for the review.",
+    checked: "2026-11-15",
+    url: "https://recruit.ucanr.edu/JPF00408" },
+
+  { g: "applied", geo: "USA", status: "submitted",
+    role: "Assistant Professor, Specialty Crop Weed Scientist (10525)", org: "Auburn University, Horticulture",
+    loc: "Auburn, AL",
+    dlText: "Preferred date Nov 9, 2026 passed. Open until filled. Start Aug 16, 2027.",
+    eligible: "Posting: must be eligible to work in the United States when the appointment begins.",
+    fit: "Strong.",
+    packet: "Applied Nov 9, 2026", next: "Wait for the review.",
+    checked: "2026-11-13",
+    url: "https://jobs.auburn.edu/auburn/jobs/10525" },
+
+  { g: "applied", geo: "Canada", status: "inprogress",
+    role: "Seed Science Operations Agronomist (145051)", org: "BASF Agricultural Solutions",
+    loc: "Saskatoon, SK",
+    dlText: "No deadline shown. Posted Oct 15, 2026.",
+    eligible: "Sponsorship unstated. Master's in agronomy, weed science or related.",
+    fit: "Not labelled in the log. Small-plot trials, canola preferred, drones listed.",
+    packet: "Application in progress since Oct 18, 2026. Not recorded as submitted.", next: "Finish or close the application.",
+    checked: "2026-11-10" },
+
+  { g: "applied", geo: "Canada", status: "submitted",
+    role: "Ag Innovation Specialist (27575)", org: "Simplot Canada",
+    loc: "Leader, SK",
+    dlText: "None recorded.",
+    eligible: "Not labelled in the log.", fit: "Not labelled in the log.",
+    packet: "Applied Oct 17, 2026", next: "Wait for a reply.",
+    checkedText: "Not recorded" },
+
+  { g: "applied", geo: "USA", status: "submitted", reply: true, hide: true,
+    role: "Agronomy Data Scientist", org: "aerialPLOT", loc: "Fargo, ND" },
+
+  { g: "applied", geo: "Canada", status: "submitted",
+    role: "Senior Agronomist, Agronomy Services (SENIO015772)", org: "MNP",
+    loc: "Assiniboia and Gravelbourg area, SK",
+    dlText: "None recorded.",
+    eligible: "Not labelled in the log.", fit: "Stretch on seniority.",
+    packet: "Applied Oct 14, 2026", next: "Wait for a reply.",
+    checkedText: "Not recorded" },
+
+  { g: "applied", geo: "Canada", status: "submitted",
+    role: "Pioneer Associate Territory Manager, Commercial Development Program (348697W)", org: "Vylor",
+    loc: "Ontario",
+    dlText: "None recorded.",
+    eligible: "Not labelled in the log.", fit: "Not labelled in the log.",
+    packet: "Applied Oct 14, 2026", next: "Wait for a reply.",
+    checkedText: "Not recorded" },
+
+  { g: "applied", geo: "Canada", status: "submitted",
+    role: "Agronomy Consulting Expert (27512)", org: "Simplot",
+    loc: "Chin, AB",
+    dlText: "None recorded.",
+    eligible: "Not labelled in the log.", fit: "Possible stretch. Listed as mid-senior, retail leaning.",
+    packet: "Applied Oct 5, 2026", next: "Wait for a reply.",
+    checkedText: "Not recorded" },
+
+  { g: "applied", geo: "Canada", status: "submitted",
+    role: "Spontaneous application (no specific role)", org: "Precision AI",
+    loc: "Calgary, AB",
+    dlText: "None. General application.",
+    eligible: "Not labelled in the log.", fit: "Not labelled in the log.",
+    packet: "Applied Oct 5, 2026", next: "Wait for a reply.",
+    checkedText: "Not recorded" },
+
+  { g: "applied", geo: "Canada", status: "onfile",
+    role: "Product Agronomist, Pioneer (Alberta)", org: "Vylor",
+    loc: "Calgary, AB",
+    dlText: "None recorded.",
+    eligible: "Sponsorship unstated. The posting asks for 5 to 7 years.", fit: "Borderline on the experience bar.",
+    packet: "Application already on file", next: "Update the existing application.",
+    checked: "2026-10-20", checkedNote: "re-published copy" },
+
+  /* ---------- DECIDED ---------- */
+  { g: "decided", geo: "USA",
+    role: "Agronomy Data Scientist", org: "aerialPLOT",
+    loc: "Fargo, ND",
+    dlText: "Applied Oct 17, 2026.",
+    eligible: "Sponsorship unstated.", fit: "Not labelled in the log.",
+    packet: "Applied. Closed.", next: "Watch the employer for later roles.",
+    checkedText: "Decided Oct 17, 2026" },
+
+  { g: "decided", geo: "USA",
+    role: "UC Cooperative Extension Area Water and Soil Resources Advisor (JPF00410)", org: "UC Agriculture and Natural Resources",
+    loc: "Sonoma, Napa, Mendocino and Marin, CA",
+    dlText: "Passed on Nov 8, 2026. Role stays open until filled, final date Jan 8, 2027.",
+    eligible: "Conditional. No new sponsorship.", fit: "Partial to stretch. Irrigation and soil in wine grapes.",
+    packet: "Passed", next: "None. Kept for the record.",
+    checkedText: "Decided Nov 8, 2026" },
+
+  { g: "decided", geo: "USA",
+    role: "Field Agronomist II", org: "Bayer Crop Science",
+    loc: "Waco, NE",
+    dlText: "Let go on Nov 5, 2026.",
+    eligible: "Not recorded in the log.", fit: "Not recorded in the log.",
+    packet: "Passed", next: "None.",
+    checkedText: "Decided Nov 5, 2026" },
+
+  { g: "decided", geo: "Canada",
+    role: "Research Associate standing ad, Plant Science and Soil Science", org: "University of Manitoba",
+    loc: "Winnipeg, MB",
+    dlText: "Passed on Oct 31, 2026. The ad was renewed to Apr 30, 2027.",
+    eligible: "Doctoral degree required. Canadians and permanent residents get priority.", fit: "Fields include weed science and digital agriculture.",
+    packet: "Passed", next: "None. Kept for the record.",
+    checkedText: "Decided Oct 31, 2026" },
+
+  { g: "decided", geo: "Canada",
+    role: "Precision Agriculture Specialist (PRECI003187)", org: "Brandt",
+    loc: "Red Deer County, AB",
+    dlText: "Parked.",
+    eligible: "Not labelled in the log.", fit: "Weak. Mostly a sales role that asks for John Deere product experience.",
+    packet: "Parked", next: "Do not resume without a go-ahead.",
+    checkedText: "Parked Oct 5, 2026" },
+
+  { g: "decided", geo: "Canada",
+    role: "Technical Sales Agronomist (Manitoba)", org: "ADAMA Agricultural Solutions Canada",
+    loc: "Winnipeg, MB",
+    dlText: "Parked. No deadline on the posting.",
+    eligible: "Sponsorship unstated. Minimum 3 years of experience.", fit: "Weed science or agronomy degree named. Immediate hire.",
+    packet: "Parked", next: "Do not resume without a go-ahead.",
+    checked: "2026-10-20",
+    url: "https://careers.adama.com/job/Winnipeg-Canada-Technical-Sales-Agronomist-%28Manitoba%29-AB/1401461833/" }
+];
+
+/* Coverage. last = date of the last check found in the logs, or null.
+   every = days between checks (7 weekly, 14 two-weekly, 31 monthly, 0 network only). */
+var MON = "Mon Nov 16, 2026", TUE = "Tue Nov 17, 2026", AUDIT = "Tue Dec 1, 2026";
+var COVERAGE = [
+  { region: "USA", rows: [
+    { n: "WSSA job board", covers: "Weed science posts", every: 7, last: "2026-11-15", next: MON },
+    { n: "ASA, CSSA, SSSA Career Center", u: "https://careers.careerplacement.org/jobs", covers: "Agronomy, crop and soil science posts", every: 7, last: "2026-11-09", next: MON, note: "Some details sit behind a member sign-in." },
+    { n: "ESA Career Center (Entomological Society)", u: "https://careers.entsoc.org", covers: "Pest management posts, some weed crossover", every: 14, last: null, next: MON, note: "Address confirmed live Nov 15 to 16, 2026. No screening yet." },
+    { n: "UC ANR and UC Recruit", u: "https://recruit.ucanr.edu", covers: "UC Cooperative Extension advisor and specialist posts", every: 7, last: "2026-11-13", next: MON },
+    { n: "University HR portals, direct checks (jobs.montana.edu and target land-grants)", covers: "Faculty, Extension and research posts that never reach aggregators", every: 7, last: "2026-11-15", next: MON, note: "Nov 15 was jobs.montana.edu. Other portals Nov 13." },
+    { n: "Bayer careers", covers: "Crop Science R&D and rotational programs", every: 7, last: "2026-11-15", next: MON, note: "Nov 15 was one posting. Full board pass Nov 13." },
+    { n: "Corteva careers", covers: "R&D, field scientist, application technology", every: 7, last: "2026-11-13", next: MON, note: "The page did not load on Nov 15." },
+    { n: "Syngenta careers", covers: "R&D scientist, data scientist, field roles", every: 7, last: "2026-11-13", next: MON },
+    { n: "BASF jobs", covers: "Agricultural Solutions R&D and development programs", every: 7, last: "2026-11-13", next: MON },
+    { n: "FMC careers", u: "https://fmc.wd12.myworkdayjobs.com/FMC", covers: "R&D scientist and related posts", every: 7, last: "2026-11-13", next: MON, note: "Through a search index." },
+    { n: "USDA ARS on USAJobs", covers: "Federal research scientist and postdoc posts", every: 7, last: "2026-11-13", next: MON, note: "Search path not yet confirmed. Posts seen so far are for US citizens only." },
+    { n: "Nature Careers", u: "https://www.nature.com/naturecareers/searchjobs/", covers: "Academic and industry science posts", every: 7, last: null, next: MON, note: "Address confirmed live Nov 15 to 16, 2026. No full board check in the log." },
+    { n: "Science Careers (AAAS)", u: "https://jobs.sciencecareers.org", covers: "Faculty, postdoc and industry posts", every: 7, last: null, next: MON, note: "Address confirmed live Nov 15 to 16, 2026. No full board check in the log." },
+    { n: "jobRxiv", u: "https://jobrxiv.org", covers: "Postdoc and research posts", every: 14, last: null, next: MON, note: "One posting came from here on Sep 26, 2026. No full board check in the log." },
+    { n: "LinkedIn Jobs", covers: "Broad industry coverage", every: 7, last: "2026-11-13", next: MON, note: "Through a search index. The job search pages do not open to a plain read." },
+    { n: "Indeed", covers: "Broad coverage, mirrors employer posts", every: 7, last: "2026-11-13", next: MON, note: "Through a search index." },
+    { n: "AgCareers.com", covers: "Agriculture aggregator, used as a mirror check", every: 7, last: "2026-11-15", next: MON }
+  ]},
+  { region: "Canada", rows: [
+    { n: "University Affairs", u: "https://universityaffairs.ca/search-jobs/", covers: "Academic posts across Canadian universities", every: 7, last: "2026-10-27", next: TUE },
+    { n: "AAFC and Government of Canada jobs", covers: "Federal research scientist and biologist posts", every: 7, last: "2026-11-15", next: TUE, note: "Most posts so far are limited to people living in Canada, citizens and permanent residents." },
+    { n: "Canadian university HR portals, direct checks", covers: "Faculty and research posts", every: 7, last: "2026-11-10", next: TUE, note: "Several portals do not open to a plain read. Checked through indexed copies." },
+    { n: "Bayer, Corteva, Syngenta, BASF: Canada boards", covers: "Field and research roles in SK, MB, ON, AB", every: 7, last: "2026-11-10", next: TUE },
+    { n: "LinkedIn Jobs, Canada filter", covers: "Industry and startup roles", every: 7, last: "2026-11-10", next: TUE, note: "Through a search index." },
+    { n: "Nature Careers and Science Careers, Canada posts", covers: "Canadian academic posts", every: 7, last: null, next: TUE, note: "Same boards as the USA rows." },
+    { n: "Canadian Weed Science Society", covers: "Contacts and meeting notices", every: 0, last: null, next: "Monthly, network only", note: "No jobs board. Not a screening source." }
+  ]},
+  { region: "New Zealand (new coverage)", rows: [
+    { n: "Seek NZ", u: "https://nz.seek.com", covers: "Main New Zealand job board", every: 7, last: "2026-11-09", next: TUE },
+    { n: "Bioeconomy Science Institute careers", u: "https://www.bioeconomyscience.co.nz/", covers: "Merged Crown research institute: AgResearch, Plant and Food Research, Manaaki Whenua, Scion", every: 7, last: "2026-10-12", next: TUE, note: "Oct 12 was reported by a sweep without a page address. Last official page read Oct 5, 2026." },
+    { n: "DairyNZ careers", u: "https://dairynz.hosting.staffcv.com", covers: "Research and science posts", every: 7, last: null, next: TUE, note: "Address confirmed live Nov 15 to 16, 2026. No sweep check in the log." },
+    { n: "Lincoln University careers", u: "https://careers.lincoln.ac.nz", covers: "Lecturer and research posts", every: 7, last: "2026-10-12", next: TUE, note: "Reported by a sweep. Later sightings were mirrors only. Some posts state no visa sponsorship." },
+    { n: "Trade Me Jobs", covers: "General board, thin on research posts", every: 14, last: null, lastText: "Checked, date not recorded", next: TUE },
+    { n: "Massey, Otago, Auckland, Canterbury, Waikato careers pages", covers: "Lecturer, research fellow and postdoc posts", every: 7, last: null, next: "After each address is confirmed", note: "Addresses not yet verified." },
+    { n: "Fonterra careers", covers: "Dairy science and agronomy roles", every: 14, last: null, next: "After the address is confirmed", note: "Address not yet verified." },
+    { n: "MPI (Ministry for Primary Industries) careers", covers: "Government science and policy roles", every: 14, last: null, next: "After the address is confirmed", note: "Address not yet verified." },
+    { n: "Jora NZ", u: "https://nz.jora.com", covers: "Aggregator, secondary check only", every: 14, last: null, next: TUE }
+  ]},
+  { region: "Global", rows: [
+    { n: "CGIAR centres through Impactpool", u: "https://www.impactpool.org/search", covers: "IRRI, CIMMYT, ICRISAT, ICRAF and other centre posts", every: 7, last: "2026-11-09", next: TUE },
+    { n: "CIMMYT vacancies", u: "https://www.cimmyt.org/?p=39166", covers: "Scientist, postdoc and associate posts", every: 7, last: null, next: TUE, note: "CIMMYT posts so far were seen on mirrors, not on this board." },
+    { n: "IRRI careers", covers: "Rice science posts", every: 7, last: "2026-11-09", next: TUE },
+    { n: "ICRISAT careers", covers: "Dryland crop posts, India and Africa", every: 7, last: null, next: TUE, note: "One post seen on a mirror Nov 9, 2026. Official board not yet read." },
+    { n: "CABI careers", u: "https://www.cabi.org/careers", covers: "Plant health, invasive species and biocontrol posts", every: 14, last: null, next: TUE },
+    { n: "Nature Careers, Science Careers, jobRxiv: global posts", covers: "Academic and postdoc posts", every: 7, last: null, next: TUE, note: "Same boards as the USA rows." },
+    { n: "CSIRO, Rothamsted, Wageningen, INRAE", covers: "Australia and Europe research institutes", every: 31, last: "2026-11-09", next: AUDIT, note: "Nov 9 covers CSIRO and Rothamsted through a search index. Wageningen official page not found. INRAE not yet checked. Addresses not yet verified." },
+    { n: "Academic Positions, Euraxess, HigherEdJobs", covers: "Global academic posts", every: 31, last: "2026-11-13", next: AUDIT, note: "Nov 13 is HigherEdJobs only. The other two are not yet checked." },
+    { n: "UPL, Nufarm, AMVAC, Vive Crop Protection", covers: "Second-tier crop protection employers", every: 14, last: "2026-09-25", next: "After each address is confirmed", note: "Sep 25 covers the AMVAC and Vive careers pages. UPL seen on mirrors only. Nufarm not yet checked." },
+    { n: "APRES and SWSS", covers: "Meeting notices and contacts", every: 0, last: null, next: "Monthly, network only", note: "No jobs board verified. Not screening sources." }
+  ]}
+];
+
+var NETWORK = [
+  { k: "Pending invites", v: "1 invite on record as sent (Oct 13, 2026). Whether it was accepted is not recorded. Full count not yet verified." },
+  { k: "Invites held back", v: "1 planned invite not sent, to save the monthly allowance." },
+  { k: "Personalised invites left", v: "3, as of Nov 12, 2026 (free account). Plain invites do not count against this." },
+  { k: "48-hour follow-ups due", v: "None recorded in the logs. Not yet verified." },
+  { k: "Warm threads awaiting replies", v: "None recorded as awaiting a reply. Not yet verified against the live inbox." },
+  { k: "Last profile-viewer check", v: "Date not in the logs. Runs on Thursdays." }
+];
+
+var CVQ = [
+  { item: "CPWC meta-analysis: contrast count", cv: "116 contrasts, 34 studies", now: "103 contrasts, 34 studies", status: "Queued for the next version" },
+  { item: "CPWC meta-analysis: target journal (research section and publications list)", cv: "In preparation for Weed Science", now: "In preparation for Weed Technology", status: "Queued for the next version" },
+  { item: "CANVAS 2026 talks and posters", cv: "Listed as scheduled, Nov 2 and Nov 3, 2026", now: "Those dates have passed. Wording to confirm with Gourav.", status: "To confirm" }
+];
+
+/* ---------------------------------------------------------------
+   RENDERING
+   --------------------------------------------------------------- */
+var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function parse(iso) { var p = iso.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function fmt(iso) { var d = parse(iso); return MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear(); }
+var now = new Date();
+var TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+function daysTo(iso) { return Math.round((parse(iso) - TODAY) / 86400000); }
+function inDays(n) {
+  if (n === 0) return "today";
+  if (n === 1) return "tomorrow";
+  if (n > 1) return "in " + n + " days";
+  if (n === -1) return "passed yesterday";
+  return "passed " + (-n) + " days ago";
+}
+function el(tag, cls, text) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined && text !== null) e.textContent = text;
+  return e;
+}
+function row(dl, k, v) { dl.appendChild(el("dt", "", k)); var dd = el("dd", "", v); dl.appendChild(dd); return dd; }
+
+document.getElementById("asof").textContent = fmt(ASOF);
+document.getElementById("today").textContent = MONTHS[TODAY.getMonth()] + " " + TODAY.getDate() + ", " + TODAY.getFullYear();
+
+/* counts */
+var submitted = JOBS.filter(function (j) { return j.status === "submitted"; }).length;
+var onfile = JOBS.filter(function (j) { return j.status === "onfile"; }).length;
+var inprog = JOBS.filter(function (j) { return j.status === "inprogress"; }).length;
+var replies = JOBS.filter(function (j) { return j.reply; }).length;
+var packs = JOBS.filter(function (j) { return j.g === "packets"; }).length;
+document.getElementById("c-sub").textContent = submitted;
+document.getElementById("c-rep").textContent = replies;
+document.getElementById("c-pack").textContent = packs;
+document.getElementById("c-note").textContent =
+  "From the application log. Also on record: " + onfile + " application already on file from before the log began, and " +
+  inprog + " in progress and not yet recorded as submitted.";
+
+/* pipeline */
+var geo = "all";
+function deadlineText(j) {
+  if (j.dl) {
+    var n = daysTo(j.dl.d);
+    return fmt(j.dl.d) + " (" + j.dl.what + "), " + inDays(n) + "." + (j.dlMore ? " " + j.dlMore : "");
+  }
+  return j.dlText || "None recorded.";
+}
+function card(j) {
+  var a = el("article", "card" + (j.g === "decided" ? " quiet" : ""));
+  a.appendChild(el("h4", "", j.role));
+  a.appendChild(el("p", "org", j.org + ". " + j.loc + "."));
+  var dl = el("dl");
+  var dd = row(dl, "Deadline", deadlineText(j));
+  if (j.dl && j.g !== "decided") { var n = daysTo(j.dl.d); if (n >= 0 && n <= 7) dd.className = "soon"; }
+  row(dl, "Eligible", j.eligible);
+  row(dl, "Fit", j.fit);
+  row(dl, "Packet", j.packet);
+  row(dl, "Next action", j.next);
+  a.appendChild(dl);
+  var foot = el("p", "foot");
+  var chk = j.checkedText ? j.checkedText : "Last checked " + fmt(j.checked) + (j.checkedNote ? " (" + j.checkedNote + ")" : "");
+  foot.appendChild(document.createTextNode(chk + ". " + j.geo + "."));
+  if (j.url) {
+    foot.appendChild(document.createTextNode(" "));
+    var link = el("a", "", j.urlLabel || "Posting");
+    link.href = j.url; link.rel = "noopener";
+    foot.appendChild(link);
+  }
+  a.appendChild(foot);
+  return a;
+}
+function drawPipeline() {
+  var box = document.getElementById("groups");
+  box.textContent = "";
+  GROUPS.forEach(function (g) {
+    var all = JOBS.filter(function (j) { return j.g === g.key && !j.hide; });
+    var list = all.filter(function (j) { return geo === "all" || j.geo === geo; });
+    list.sort(function (a, b) {
+      var x = a.dl ? a.dl.d : "9999", y = b.dl ? b.dl.d : "9999";
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
+    var h = el("h3", "", g.title + " ");
+    h.appendChild(el("span", "n", "(" + list.length + ")"));
+    box.appendChild(h);
+    if (!list.length) {
+      box.appendChild(el("p", "none", all.length ? "Nothing in this group for " + geo + "." : g.empty));
+      return;
+    }
+    var grid = el("div", "cards");
+    list.forEach(function (j) { grid.appendChild(card(j)); });
+    box.appendChild(grid);
+  });
+}
+Array.prototype.forEach.call(document.querySelectorAll(".filter button"), function (b) {
+  b.addEventListener("click", function () {
+    geo = b.getAttribute("data-geo");
+    Array.prototype.forEach.call(document.querySelectorAll(".filter button"), function (o) {
+      o.setAttribute("aria-pressed", o === b ? "true" : "false");
+    });
+    drawPipeline();
+  });
+});
+drawPipeline();
+
+/* deadlines */
+var GNAME = { apply: "Apply now", packets: "Packet ready", watch: "Watchlist", applied: "Applied" };
+function table(heads, rows) {
+  var t = el("table"), th = el("thead"), tr = el("tr");
+  heads.forEach(function (h) { tr.appendChild(el("th", "", h)); });
+  th.appendChild(tr); t.appendChild(th);
+  var tb = el("tbody");
+  rows.forEach(function (r) {
+    var tr2 = el("tr");
+    r.forEach(function (c, i) {
+      var td = el("td", i === 0 ? "first" : "");
+      if (i > 0) td.setAttribute("data-l", heads[i]);
+      if (c && c.nodeType) td.appendChild(c);
+      else if (c && c.text !== undefined) { td.textContent = c.text; td.className += " " + c.cls; }
+      else td.textContent = c;
+      tr2.appendChild(td);
+    });
+    tb.appendChild(tr2);
+  });
+  t.appendChild(tb);
+  return t;
+}
+function drawDeadlines() {
+  var dated = JOBS.filter(function (j) { return j.dl && j.g !== "decided" && !j.hide; })
+    .map(function (j) { return { j: j, n: daysTo(j.dl.d) }; })
+    .filter(function (x) { return x.n >= 0; })
+    .sort(function (a, b) { return a.n - b.n; });
+  function fill(id, list, empty) {
+    var box = document.getElementById(id);
+    box.textContent = "";
+    if (!list.length) { box.appendChild(el("p", "none", empty)); return; }
+    box.appendChild(table(["Date", "When", "What", "Role", "Status"], list.map(function (x) {
+      var role = document.createElement("span");
+      role.appendChild(document.createTextNode(x.j.role));
+      role.appendChild(el("span", "sub", x.j.org + ", " + x.j.loc));
+      return [fmt(x.j.dl.d), inDays(x.n), x.j.dl.what, role, GNAME[x.j.g]];
+    })));
+  }
+  fill("dl-week", dated.filter(function (x) { return x.n <= 7; }), "No dated deadlines in the next 7 days.");
+  fill("dl-month", dated.filter(function (x) { return x.n > 7 && x.n <= 30; }), "No dated deadlines between 8 and 30 days out.");
+  fill("dl-later", dated.filter(function (x) { return x.n > 30; }), "No later dates on file.");
+}
+drawDeadlines();
+
+/* coverage */
+var FREQ = { 7: "Weekly", 14: "Every two weeks", 31: "Monthly", 0: "Network only" };
+function drawCoverage() {
+  var box = document.getElementById("cov");
+  var gaps = 0, total = 0;
+  COVERAGE.forEach(function (reg) {
+    box.appendChild(el("h3", "", reg.region));
+    var rows = reg.rows.map(function (r) {
+      var name = document.createElement("span");
+      if (r.u) { var a = el("a", "", r.n); a.href = r.u; a.rel = "noopener"; name.appendChild(a); }
+      else name.appendChild(document.createTextNode(r.n));
+      name.appendChild(el("span", "sub", r.covers));
+      var last = document.createElement("span");
+      last.appendChild(document.createTextNode(r.last ? fmt(r.last) : (r.lastText || (r.every === 0 ? "Not a jobs board" : "not yet checked"))));
+      if (r.note) last.appendChild(el("span", "sub", r.note));
+      var flag = "";
+      if (r.every > 0) {
+        total++;
+        if (!r.last) { flag = "Gap"; gaps++; }
+        else if (-daysTo(r.last) > r.every) { flag = "Overdue"; gaps++; }
+      }
+      return [name, FREQ[r.every], last, r.next, { text: flag, cls: "flag" }];
+    });
+    box.appendChild(table(["Source", "How often", "Last checked", "Next check due", "Flag"], rows));
+  });
+  var sum = el("p", "note", gaps + " of " + total + " screening sources are flagged today: either never checked, or checked longer ago than their schedule allows.");
+  box.insertBefore(sum, box.firstChild);
+}
+drawCoverage();
+
+/* networking */
+(function () {
+  var box = document.getElementById("net");
+  box.appendChild(table(["Item", "Status"], NETWORK.map(function (r) { return [r.k, r.v]; })));
+})();
+
+/* cv queue */
+(function () {
+  var box = document.getElementById("cvq");
+  box.appendChild(table(["Item", "CV v3 says", "Current", "Status"], CVQ.map(function (r) { return [r.item, r.cv, r.now, r.status]; })));
+})();
+</script>
+</body>
+</html>
